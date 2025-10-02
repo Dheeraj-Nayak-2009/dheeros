@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Web File Explorer</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    #file-system {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .folder, .file {
+      cursor: pointer;
+      padding: 0.5rem;
+      background: #1e1e1e;
+      border-radius: 5px;
+    }
+
+    .folder:hover, .file:hover {
+      background: #2c2c2c;
+    }
+
+    .controls {
+      margin-bottom: 1rem;
+    }
+
+    .controls button {
+      margin-right: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      background: #444;
+    }
+
+    .back {
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      color: #ccc;
+    }
+
+    .actions {
+      margin-top: 0.3rem;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    .actions button {
+      margin-right: 0.3rem;
+      padding: 0.2rem 0.5rem;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .actions button:hover {
+      background: #666;
+    }
+
+    pre {
+      background: #111;
+      padding: 1rem;
+      white-space: pre-wrap;
+    }
+
+    img {
+      max-width: 100%;
+      border: 2px solid #fff;
+    }
+
+    /* --- Modal Styling --- */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #222;
+      padding: 1.5rem;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 0 20px #000;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      margin-bottom: 0.8rem;
+      padding: 0.4rem;
+      background: #333;
+      border: 1px solid #555;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .modal-content button {
+      margin-right: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: #555;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background: #777;
+    }
+  </style>
+</head>
+<body>
+
+<h2>File System</h2>
+<div class="controls">
+  <button onclick="showModal('folder')">New Folder</button>
+  <button onclick="showModal('file')">New File</button>
+</div>
+<div id="back-btn" class="back" onclick="goBack()" style="display:none">⬅ Back</div>
+<div id="file-system"></div>
+<div id="viewer"></div>
+
+<!-- Modal -->
+<div id="modal" class="modal" style="display:none">
+  <div class="modal-content">
+    <h3 id="modal-title">New</h3>
+    <input type="text" id="modal-name" placeholder="File or Folder Name" />
+    <textarea id="modal-text" rows="4" placeholder="Text content (if text file)"></textarea>
+    <input type="text" id="modal-img" placeholder="Image URL (if image file)" />
+    <div style="text-align:right;">
+      <button onclick="handleModalSubmit()">Create</button>
+      <button onclick="hideModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let fileSystem = JSON.parse(localStorage.getItem("fs")) || { name: "root", type: "folder", children: [] };
+let currentPath = [];
+let modalMode = "folder";
+let renameTarget = null;
+
+function save() {
+  localStorage.setItem("fs", JSON.stringify(fileSystem));
+}
+
+function getCurrentFolder() {
+  let ptr = fileSystem;
+  for (let name of currentPath) {
+    ptr = ptr.children.find(f => f.name === name && f.type === "folder");
+  }
+  return ptr;
+}
+
+function render() {
+  const fs = getCurrentFolder();
+  const container = document.getElementById("file-system");
+  const viewer = document.getElementById("viewer");
+  container.innerHTML = "";
+  viewer.innerHTML = "";
+
+  document.getElementById("back-btn").style.display = currentPath.length > 0 ? "block" : "none";
+
+  fs.children.forEach(item => {
+    const div = document.createElement("div");
+    div.className = item.type;
+    div.innerHTML = `${item.name}`;
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    actions.innerHTML = `
+      <button onclick="showModal('rename', '${item.name}')">✏ Rename</button>
+      <button onclick="deleteItem('${item.name}')">🗑 Delete</button>
+    `;
+    div.appendChild(actions);
+    div.onclick = e => {
+      if (e.target.tagName === "BUTTON") return;
+      if (item.type === "folder") {
+        currentPath.push(item.name);
+        render();
+      } else {
+        viewFile(item);
+      }
+    };
+    container.appendChild(div);
+  });
+}
+
+function goBack() {
+  currentPath.pop();
+  render();
+}
+
+function showModal(mode, targetName = null) {
+  modalMode = mode;
+  renameTarget = targetName;
+
+  document.getElementById("modal-title").textContent =
+    mode === "folder" ? "Create Folder" :
+    mode === "file" ? "Create File" :
+    "Rename";
+
+  document.getElementById("modal-name").value = mode === "rename" ? targetName : "";
+  document.getElementById("modal-text").value = "";
+  document.getElementById("modal-img").value = "";
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+function hideModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function handleModalSubmit() {
+  const name = document.getElementById("modal-name").value.trim();
+  const text = document.getElementById("modal-text").value.trim();
+  const img = document.getElementById("modal-img").value.trim();
+
+  if (!name) return alert("Name is required");
+
+  const folder = getCurrentFolder();
+
+  if (modalMode === "folder") {
+    folder.children.push({ name, type: "folder", children: [] });
+  } else if (modalMode === "file") {
+    const file = {
+      name,
+      type: "file",
+      content: text || img,
+      filetype: text ? "text" : "image"
+    };
+    folder.children.push(file);
+  } else if (modalMode === "rename") {
+    const item = folder.children.find(f => f.name === renameTarget);
+    if (item) item.name = name;
+  }
+
+  save();
+  hideModal();
+  render();
+}
+
+function viewFile(file) {
+  const viewer = document.getElementById("viewer");
+  viewer.innerHTML = `<h3>${file.name}</h3>`;
+  if (file.filetype === "image") {
+    viewer.innerHTML += `<img src="${file.content}" />`;
+  } else {
+    viewer.innerHTML += `<pre>${escapeHtml(file.content)}</pre>`;
+  }
+}
+
+function escapeHtml(text) {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function deleteItem(name) {
+  const folder = getCurrentFolder();
+  folder.children = folder.children.filter(f => f.name !== name);
+  save();
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

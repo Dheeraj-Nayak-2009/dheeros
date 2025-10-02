@@ -1,0 +1,66 @@
+<!-- apps/notepad.html -->
+<style>
+  .notepad-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .notepad-toolbar {
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    display: flex;
+    gap: 10px;
+  }
+
+  .notepad-toolbar button {
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    backdrop-filter: blur(4px);
+  }
+
+  .notepad-area {
+    flex: 1;
+    background: transparent;
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    resize: none;
+    border: none;
+    outline: none;
+    padding: 10px;
+  }
+</style>
+
+<div class="notepad-wrapper">
+  <div class="notepad-toolbar">
+    <button onclick="saveText()">Save</button>
+    <button onclick="clearText()">Clear</button>
+  </div>
+  <textarea class="notepad-area" id="notepad-text" spellcheck="false" placeholder="Start typing..."></textarea>
+</div>
+
+<script>
+  function saveText() {
+    const text = document.getElementById("notepad-text").value;
+    const blob = new Blob([text], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "note.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function clearText() {
+    document.getElementById("notepad-text").value = "";
+  }
+</script>

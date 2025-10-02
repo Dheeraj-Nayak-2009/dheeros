@@ -1,0 +1,210 @@
+<!-- AIzaSyCQTZ0o3SMQFZ1RxNdGXA9bnrnbjtWJKqE -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+  <title>DheerOS</title>
+  <link rel="shortcut icon" href="https://cdn-icons-png.freepik.com/256/12449/12449093.png?semt=ais_hybrid" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Black+Ops+One&family=Jersey+15&family=Manufacturing+Consent&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&family=Pacifico&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Righteous&family=Tilt+Prism&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- if already visited, no bootscreen -->
+<script>
+    if (localStorage.getItem("visited")) {
+        document.write('<style>#boot-screen { display: none; }</style>');
+    }
+</script>
+<div id="boot-screen">
+  <img src="assets/logo.svg" id="boot-logo" />
+</div>
+  <div id="desktop">
+    <div id="wallpaper"></div>
+    <button id="settings-btn" onclick="openApp('settings')" title="Settings"><i class="fa-solid fa-gear"></i></button>
+
+    <div id="desktop-clock">
+        <h1 id="dc-day">MONDAY</h1>
+        <h2 id="dc-date">14th July, 2025</h2>
+        <h2 id="dc-time">10:45 PM</h2>
+    </div>
+    
+    <div class="ql">
+        <!-- Quick links icons for websites -->
+        <!-- open in new tab -->
+        <a href="https://www.google.com" class="ql-icon" target="_blank">
+            <img src="https://media.tenor.com/OJlQZMZHc7gAAAAm/google.webp" />
+            <span>Google</span>
+        </a>
+        <a href="https://www.youtube.com" class="ql-icon" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png" />
+            <span>YouTube</span>
+        </a>
+        <a href="https://www.gmail.com" class="ql-icon" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/1280px-Gmail_icon_%282020%29.svg.png" />
+            <span>Gmail</span>
+        </a>
+        <!-- chatgpt, whatsapp, github, bandlab, canva -->
+        <a href="https://www.chatgpt.com" class="ql-icon" target="_blank">
+            <img src="https://pngimg.com/d/chatgpt_PNG14.png" />
+            <span>ChatGPT</span>
+        </a>
+        <a href="https://www.whatsapp.com" class="ql-icon" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2560px-WhatsApp.svg.png" />
+            <span>WhatsApp</span>
+        </a>
+        <a href="https://www.github.com" class="ql-icon" target="_blank">
+            <img src="https://images.icon-icons.com/836/PNG/512/Github_icon-icons.com_66788.png" />
+            <span>GitHub</span>
+        </a>
+        <a href="https://www.bandlab.com" class="ql-icon" target="_blank">
+            <img src="https://img.icons8.com/?size=512&id=tJrnHUzbJPqf&format=png" />
+            <span>BandLab</span>
+        </a>
+        <a href="https://www.canva.com" class="ql-icon" target="_blank">
+            <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png" />
+            <span>Canva</span>
+        </a>
+    </div>
+    <!-- Inside #taskbar -->
+    <div id="taskbar">
+        <div id="start-button">
+            <img src="assets/logo.svg" id="start-logo" />
+        </div>
+        <div class="google-search">
+            <input type="text" id="google-search-input" placeholder="Search Google or type a URL" />
+            <button id="google-search-btn"><i class="fa-brands fa-google"></i></button>
+        </div>
+        <div id="taskbar-apps"></div>
+        <div id="clock">00:00</div>
+    </div>
+
+
+
+    <!-- App Icons -->
+    <div id="desktop-icons">
+        <div class="icon" onclick="openApp('notepad')">
+            <img src="https://cdn-icons-png.freepik.com/512/9488/9488746.png" />
+            <span>Notepad</span>
+        </div>
+        <div class="icon" onclick="openApp('ide')">
+            <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/ide-3953045-3272365.png?f=webp" />
+            <span>WebDev</span>
+        </div>
+        <div class="icon" onclick="openApp('python')">
+            <img src="https://play-lh.googleusercontent.com/DfczWza0Q_uWX2-R2IF9mX77Laz6et8AiGLNNeHbuPwQyl7A9vSK-LWj-DdLABXXow" />
+            <span>PyEditor</span>
+        </div>
+        <div class="icon" onclick="openApp('game')">
+            <img src="https://cdn-icons-png.flaticon.com/512/5930/5930147.png" />
+            <span>Game</span>
+        </div>
+        <div class="icon" onclick="openApp('browser')">
+            <img src="https://f-droid.org/repo/com.stoutner.privacybrowser.standard/en-US/icon_TcuCM76vKQN0yOL--Q5nb5tVhvCxqsomSWiIn8jfgm0=.png" />
+            <span>Browser</span>
+        </div>
+        <div class="icon" onclick="openApp('calc')">
+            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/calculator-3d-icon-download-in-png-blend-fbx-gltf-file-formats--accounting-calculation-finance-general-ui-pack-user-interface-icons-5376602.png" />
+            <span>Calculator</span>
+        </div>
+        <div class="icon" onclick="openApp('paint')">
+            <img src="https://s.cafebazaar.ir/images/icons/com.ternopil.fingerpaintfree_512x512.png?x-img=v1/resize,h_256,w_256,lossless_false/optimize" />
+            <span>Paint</span>
+        </div>
+        <div class="icon" onclick="openApp('weather')">
+            <img src="https://cdn3d.iconscout.com/3d/free/thumb/free-apple-weather-application-3d-icon-download-in-png-blend-fbx-gltf-file-formats--ios-logo-app-pack-user-interface-icons-8256760.png?f=webp" />
+            <span>Weather</span>
+        </div>
+        <div class="icon" onclick="openApp('maps')">
+            <img src="https://cdn-icons-png.freepik.com/256/3845/3845745.png?semt=ais_hybrid" />
+            <span>Maps</span>
+        </div>
+        <div class="icon" onclick="openApp('ex')">
+            <img src="https://png.pngtree.com/png-vector/20240805/ourmid/pngtree-file-management-icon-png-image_13387927.png" />
+            <span>FileExplorer</span>
+        </div>
+    </div>
+
+    <!-- App Window Container -->
+    <div id="windows"></div>
+  </div>
+
+  <script src="main.js"></script>
+<script src="https://kit.fontawesome.com/607a222a2c.js" crossorigin="anonymous"></script>
+<script src="https://embed.brush.ninja/drawing.js"></script>
+</body>
+<script>
+    // on clcking anywhere on page, fullscreen the page
+    document.addEventListener("click", function(event) {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        }
+    });
+</script>
+<script>
+    // Function to check if the input is a valid URL
+    function isValidUrl(input) {
+        try {
+            new URL(input);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    // Handle search or navigation
+    document.getElementById("google-search-btn").addEventListener("click", function () {
+        const input = document.getElementById("google-search-input").value.trim();
+        if (isValidUrl(input)) {
+            // If valid URL, open in a new tab
+            window.open(input.startsWith("http") ? input : `https://${input}`, "_blank");
+        } else {
+            // Otherwise, search on Google in a new tab
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
+        }
+    });
+
+    // Same for Enter key
+    document.getElementById("google-search-input").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            const input = document.getElementById("google-search-input").value.trim();
+            if (isValidUrl(input)) {
+                window.open(input.startsWith("http") ? input : `https://${input}`, "_blank");
+            } else {
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
+            }
+        }
+    });
+</script>
+<script>
+    // check if it is open on browser for first time
+    if (!localStorage.getItem("visited")) {
+        // show alert
+        // alert("For the best experience, please open this OS in full-screen mode and use a desktop or laptop.");
+        localStorage.setItem("visited", "true");
+        localStorage.setItem(
+  "wallpapers",
+  JSON.stringify([
+    "assets/wallpapers/wall1.jpg",
+    "assets/wallpapers/wall2.png",
+    "assets/wallpapers/wall3.png",
+    "https://i.ibb.co/Rpmn55Kf/image.png",
+    "https://static.vecteezy.com/system/resources/previews/030/663/661/non_2x/calming-anime-background-high-quality-free-photo.jpg",
+    "https://wallpapers.com/images/hd/anime-night-scenery-cr4v12yjb467ggtf.jpg",
+    "https://img.goodfon.com/original/2345x1500/b/5c/anime-landscape-mountains-scenic-clouds-stars-stream-anime.jpg",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9c2e9d59-ee54-490e-bf96-5497f587844f/dgctdnb-65456fe0-72db-41c6-832a-5b1807d0d68c.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi85YzJlOWQ1OS1lZTU0LTQ5MGUtYmY5Ni01NDk3ZjU4Nzg0NGYvZGdjdGRuYi02NTQ1NmZlMC03MmRiLTQxYzYtODMyYS01YjE4MDdkMGQ2OGMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.T6TO433oJdND6zRS8Gl2Rvjc_WLRUDDFOesIpbpsHpo",
+    "https://images8.alphacoders.com/135/1354199.jpeg",
+    "https://www.pixelstalk.net/wp-content/uploads/images6/Anime-Scenery-Wallpaper-Desktop.jpg"
+  ])
+);
+    }
+    else {
+        console.log("Welcome back!");
+    }
+</script>
+</html>
