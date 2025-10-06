@@ -135,6 +135,16 @@
 <script src="https://embed.brush.ninja/drawing.js"></script>
 </body>
 <script>
+  document.addEventListener("click", () => {
+    if (window.innerWidth < 800) {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen?.();
+      }
+    }
+  });
+</script>
+<script>
     // Function to check if the input is a valid URL
     function isValidUrl(input) {
         try {
@@ -196,6 +206,7 @@
     }
 </script>
 </html>
+
 
 
 
